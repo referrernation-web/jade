@@ -116,10 +116,6 @@ one("a.play().catch(function(){subEl.classList.remove('on')})", "a.play().catch(
 # ---------------------------------------------------------------- the mount: a kit jeepney replaces the procedural dog; Jade = the rider
 # no kimpoy rig: the jeep is added to DOG once kit.glb is in; the procedural dog body is hidden. ponytail: one merged mesh, no spinning wheels.
 one("GL.load('models/kimpoy-rig.glb?v='+FIGV,function(gl){var root=gl.scene,mesh=null;root.traverse(function(m){if(m.isSkinnedMesh)mesh=m});if(!mesh)return;",
-    "(function addJeep(){if(!KIT.jeep){setTimeout(addJeep,150);return}var g=KIT.jeep.clone(),ka=g.attributes.color,cc=new THREE.Color(0x" + TEAL + ");"
-    "if(ka){var arr=new Float32Array(ka.count*3);for(var i=0;i<ka.count;i++){var a=ka.itemSize>3?ka.getW(i):1,t=a>.95?1:0;arr[i*3]=ka.getX(i)*(1+t*(cc.r-1));arr[i*3+1]=ka.getY(i)*(1+t*(cc.g-1));arr[i*3+2]=ka.getZ(i)*(1+t*(cc.b-1))}g.setAttribute('color',new THREE.BufferAttribute(arr,3))}"
-    "var jm=new THREE.Mesh(g,new THREE.MeshStandardMaterial({vertexColors:true,roughness:.6,metalness:.1}));jm.castShadow=true;var sc=3.6/5;jm.scale.set(sc,sc,sc);jm.rotation.y=-Math.PI/2;jm.position.set(0,-.25,0);jm.userData.jeep=true;DOG.add(jm);FIG.jeep=jm;"
-    "var hats=Object.keys(HATM).map(function(k){return HATM[k]});DOG.children.forEach(function(ch){if(ch!==jm&&!ch.userData.rider&&!ch.userData.dianna&&hats.indexOf(ch)<0)ch.visible=false})})();\n"
     " GL.load('models/none-kimpoy.glb?v='+FIGV,function(gl){var root=gl.scene,mesh=null;root.traverse(function(m){if(m.isSkinnedMesh)mesh=m});if(!mesh)return;")
 one("GL.load('models/dianna-anim.glb?v='+FIGV,function(gl){setupDianna(gl,gl.animations)},undefined,function(){GL.load('models/dianna-rig.glb?v='+FIGV,",
     "GL.load('models/jade-anim.glb?v='+FIGV,function(gl){setupDianna(gl,gl.animations)},undefined,function(){GL.load('models/jade-rig.glb?v='+FIGV,")
@@ -127,6 +123,24 @@ one("GL.load('models/dianna-anim.glb?v='+FIGV,function(gl){setupDianna(gl,gl.ani
 one("function(gl){setupDianna(gl,null)},undefined,function(){})});",
     "function(gl){setupDianna(gl,null)},undefined,function(){procSeat()})});"
     " function procSeat(){if(FIG.onSeat)return;var Dg=DOG.children.filter(function(c){return c.userData.dianna})[0];if(!Dg)return;var seat=new THREE.Object3D();seat.position.copy(Dg.position);DOG.add(seat);Dg.position.set(0,0,0);seat.add(Dg);Dg.userData.rider=true;var dummy=new THREE.Object3D();Dg.add(dummy);FIG.dia=dummy;FIG.seat=seat;FIG.diaYs=0;FIG.diaZs=0;FIG.onSeat=true;RIDE.on=true;RIDE.ph='ride';mountUI()}")
+# the mount: Jade's pet, a Totoro-inspired forest spirit (Ghibli IP, so an original low-poly homage: grey egg body, cream belly with chevrons, tall ears, whiskers, grin).
+# Same variables the engine animates (legs[], tail, EARS, TONGUE) so figAnim's procedural branch keeps working.
+one(r"DOG\.userData\.bodyStart=DOG\.children\.length;.*?tail\.rotation\.x=-\.9;DOG\.add\(tail\);", r"""var GRY=new THREE.MeshStandardMaterial({color:0x6e726a,roughness:.95,metalness:0}),CRM=new THREE.MeshStandardMaterial({color:0xeae3bb,roughness:.9,metalness:0}),DKM=mat(0x3a3d37),WHM=mat(0xffffff);
+ DOG.userData.bodyStart=DOG.children.length;
+ var body=new THREE.Mesh(new THREE.SphereGeometry(1,22,18),GRY);body.position.set(0,1.75,0);body.scale.set(1.35,1.75,1.2);DOG.add(body);
+ var belly=new THREE.Mesh(new THREE.SphereGeometry(1,22,18),CRM);belly.position.set(0,1.3,.42);belly.scale.set(1.0,1.12,.85);DOG.add(belly);
+ [[-.42,1.62],[0,1.72],[.42,1.62],[-.55,1.22],[-.18,1.3],[.18,1.3],[.55,1.22]].forEach(function(c){var dx=c[0]/1.0,dy=(c[1]-1.3)/1.12,zz=.42+.85*Math.sqrt(Math.max(0,1-dx*dx-dy*dy))+.02;var ch=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.03,3),DKM);ch.position.set(c[0],c[1],zz);ch.rotation.x=Math.PI/2;ch.rotation.y=Math.PI;ch.scale.set(1.3,1,.55);DOG.add(ch)});   // belly chevrons: flat triangles on the belly surface
+ var head=new THREE.Mesh(new THREE.SphereGeometry(.5,18,14),GRY);head.position.set(0,2.55,.45);head.scale.set(1.9,1.1,1.1);DOG.add(head);   // brow ridge (Totoro has no neck; the head IS the top of the egg)
+ [[-.33],[.33]].forEach(function(e){var ey=new THREE.Mesh(new THREE.SphereGeometry(.14,12,10),WHM);ey.position.set(e[0],2.75,.98);DOG.add(ey);var pu=new THREE.Mesh(new THREE.SphereGeometry(.065,8,8),DKM);pu.position.set(e[0],2.75,1.1);DOG.add(pu)});
+ var nose=new THREE.Mesh(new THREE.SphereGeometry(.08,8,6),DKM);nose.position.set(0,2.55,1.12);DOG.add(nose);
+ var grin=new THREE.Mesh(new THREE.BoxGeometry(.9,.13,.05),WHM);grin.position.set(0,2.36,1.05);DOG.add(grin);for(var gi=-2;gi<=2;gi++){var tl=new THREE.Mesh(new THREE.BoxGeometry(.02,.13,.06),DKM);tl.position.set(gi*.18,2.36,1.05);DOG.add(tl)}   // the wide grin
+ [-1,1].forEach(function(sd){for(var w=0;w<3;w++){var wk=new THREE.Mesh(new THREE.CylinderGeometry(.012,.012,.85,4),DKM);wk.position.set(sd*.95,2.62+(w-1)*.1,.85);wk.rotation.z=sd*(Math.PI/2+(w-1)*.22);DOG.add(wk)}});   // whiskers
+ var snout=nose;
+ [[-.45,.12],[.45,-.12]].forEach(function(e){var g=new THREE.Group();g.position.set(e[0],3.4,-.1);var m=new THREE.Mesh(new THREE.ConeGeometry(.2,.7,8),GRY);m.position.y=.3;g.add(m);g.rotation.z=e[1];DOG.add(g);EARS.push(g)});   // tall ears (pivot at the base)
+ DOG.userData.bodyEnd=DOG.children.length;TONGUE=bx(.22,.08,.3,0xd2546e,0,2.28,1.0);   // tongue (shows on boost)
+ [[-.5,.45],[.5,.45],[-.5,-.45],[.5,-.45]].forEach(function(p){var g=new THREE.Group();g.position.set(p[0],.55,p[1]);var l=new THREE.Mesh(new THREE.SphereGeometry(.3,10,8),GRY);l.position.y=-.25;l.scale.set(1,.8,1.2);g.add(l);var paw=new THREE.Mesh(new THREE.SphereGeometry(.08,6,5),DKM);paw.position.set(0,-.4,.28);g.add(paw);legs.push(g);DOG.add(g)});   // stubby legs
+ tail=new THREE.Group();tail.position.set(0,1.0,-1.15);var t=new THREE.Mesh(new THREE.SphereGeometry(.22,8,6),GRY);t.position.y=.1;tail.add(t);tail.rotation.x=-.9;DOG.add(tail);""", re.S, True)
+one("head.position.set(0,1.62,1.0);head.scale.set(1,.92,1.05);DOG.add(head);   // head: his real face is on the front of the texture", "") if "head: his real face" in s else None
 # procedural rider recoloured to Jade while the Rodin/UniRig figure is pending: tan skin, short black hair, teal polo, dark slacks
 one("var JKM=new THREE.MeshStandardMaterial({map:TEX('dianna-jacket.jpg',1,false),roughness:.75,metalness:0});",
     "var JKM=new THREE.MeshStandardMaterial({color:0x" + TEAL2 + ",roughness:.8,metalness:0});var SKM=new THREE.MeshStandardMaterial({color:0xc68a5a,roughness:.7,metalness:0});")
@@ -142,17 +156,20 @@ one("[[-.33,0],[.33,0]].forEach(function(q){var st=new THREE.Mesh(new THREE.BoxG
 one("var FURM=new THREE.MeshStandardMaterial({map:TEX('kimpoy-fur.jpg',1.2),roughness:1,metalness:0});", "var FURM=new THREE.MeshStandardMaterial({color:0x" + TEAL + ",roughness:.6,metalness:0});")
 one("var SHELLM=window.SHELLM=new THREE.MeshStandardMaterial({map:TEX('fur-shell.png',2.4),transparent:true,alphaTest:.3,depthWrite:false,roughness:1,side:THREE.DoubleSide,color:0x8a847a});",
     "var SHELLM=window.SHELLM=new THREE.MeshStandardMaterial({transparent:true,opacity:.0,depthWrite:false,roughness:1,side:THREE.DoubleSide,color:0x8a847a});")
-one("var HEADM=new THREE.MeshStandardMaterial({map:TEX('kimpoy-head.jpg',1,false),roughness:1,metalness:0});", "var HEADM=new THREE.MeshStandardMaterial({color:0x" + TEAL + ",roughness:.6,metalness:0});")
+# (HEADM line lives inside the body block replaced above)
 # rider seat height on the jeepney roof (procedural rider group sits at D.position)
-one("var D=new THREE.Group();D.position.set(0,1.5,-.25);D.userData.dianna=true;DOG.add(D);", "var D=new THREE.Group();D.position.set(0,1.85,-.15);D.userData.dianna=true;DOG.add(D);")
+one("var D=new THREE.Group();D.position.set(0,1.5,-.25);D.userData.dianna=true;DOG.add(D);", "var D=new THREE.Group();D.position.set(0,3.45,-.15);D.userData.dianna=true;DOG.add(D);")   # rides on top of the head, Mei-style
 
+# hats were placed for Kimpoy's head (y~2.1, z~1); lift them onto Totoro's crown
+one("HATM.helmet=helm})()", "HATM.helmet=helm;Object.keys(HATM).forEach(function(k){HATM[k].position.y+=1.55;HATM[k].position.z-=.95})})()")
 # ---------------------------------------------------------------- palette + names
 s = s.replace("8a1c2b", TEAL).replace("d8293f", TEAL2)
 s = s.replace("Mark's", "Jade's").replace("Mark&#39;s", "Jade&#39;s").replace("Mark\\'s", "Jade\\'s").replace("Mark Edcel Lopez", "Jade Patrick Mendoza")
 s = s.replace("markedcel06@gmail.com", EMAIL).replace("https://www.linkedin.com/in/mark-edcel-lopez-513509216/", LI)
 s = s.replace("referrernation-web.github.io/portfolio", "referrernation-web.github.io/jade")
-s = s.replace("Kimpoy!", "Jeepney!").replace("Kimpoy", "the jeepney").replace("Dianna", "Jade").replace("bark", "honk").replace("Bark", "Honk")
-s = s.replace("BABA (G)", "GET OFF (G)").replace("SAKAY (G)", "GET ON (G)").replace("SIPOL (G)", "CALL JEEP (G)")
+s = s.replace("Kimpoy!", "Totoro!").replace("Kimpoy", "Totoro").replace("Dianna", "Jade").replace("bark", "roar").replace("Bark", "Roar")
+s = s.replace("BABA (G)", "GET OFF (G)").replace("SAKAY (G)", "GET ON (G)").replace("SIPOL (G)", "CALL TOTORO (G)")
+s = s.replace("drives a jeepney", "rides Totoro, the forest-spirit pet,").replace("Drive the jeepney", "Ride Totoro").replace("the jeepney is parked", "Totoro naps").replace("ride a jeepney", "ride Totoro").replace("H center on the jeepney", "H center on Totoro")
 left = re.findall(r"Mark\b|Makati|Coggno|Bytown|markedcel|Papa", s)
 print("patched; leftovers:", len(left), sorted(set(left)), "| size", len(s) // 1024, "KB")
 P.write_text(s, encoding="utf-8")
