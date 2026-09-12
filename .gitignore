@@ -1,0 +1,7 @@
+__pycache__/
+world/*.bak*
+world/index.v*
+world/models/*-r.glb
+world/models/*-body*.glb
+world/preview_*
+world/test/
