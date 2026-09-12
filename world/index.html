@@ -544,7 +544,7 @@ function loadFigures(){
   bakePose([[pick(D.arms[0]||[],0),_AX,.55],[pick(D.arms[1]||[],0),_AX,.55],[pick(D.arms[0]||[],2),_AX,.4],[pick(D.arms[1]||[],2),_AX,.4],
    [pick(D.legs[0]||[],0),_AZ,D.legs[0]&&D.legs[0].right?-.6:.6],[pick(D.legs[1]||[],0),_AZ,D.legs[1]&&D.legs[1].right?-.6:.6],[pick(D.legs[0]||[],1),_AX,-1.1],[pick(D.legs[1]||[],1),_AX,-1.1]],root)}
   DOG.children.forEach(function(ch){if(ch.userData.dianna)ch.visible=false});attachRider()}
- GL.load('models/jade-anim.glb?v='+FIGV,function(gl){setupJade(gl,gl.animations)},undefined,function(){GL.load('models/jade-rig.glb?v='+FIGV,function(gl){setupJade(gl,null)},undefined,function(){})});   // Mixamo clips if present, else the UniRig file
+ GL.load('models/jade-anim.glb?v='+FIGV,function(gl){setupJade(gl,gl.animations)},undefined,function(){GL.load('models/jade-rig.glb?v='+FIGV,function(gl){setupJade(gl,null)},undefined,function(){procSeat()})}); function procSeat(){if(FIG.onSeat)return;var Dg=DOG.children.filter(function(c){return c.userData.dianna})[0];if(!Dg)return;var seat=new THREE.Object3D();seat.position.copy(Dg.position);DOG.add(seat);Dg.position.set(0,0,0);seat.add(Dg);Dg.userData.rider=true;var dummy=new THREE.Object3D();Dg.add(dummy);FIG.dia=dummy;FIG.seat=seat;FIG.diaYs=0;FIG.diaZs=0;FIG.onSeat=true;RIDE.on=true;RIDE.ph='ride';mountUI()}   // Mixamo clips if present, else the UniRig file
 }
 loadFigures();
 var shadow=new THREE.Mesh(new THREE.CircleGeometry(1.4,16),new THREE.MeshBasicMaterial({color:0x000,transparent:true,opacity:.28}));shadow.rotation.x=-Math.PI/2;S.add(shadow);

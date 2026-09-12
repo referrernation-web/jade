@@ -123,6 +123,10 @@ one("GL.load('models/kimpoy-rig.glb?v='+FIGV,function(gl){var root=gl.scene,mesh
     " GL.load('models/none-kimpoy.glb?v='+FIGV,function(gl){var root=gl.scene,mesh=null;root.traverse(function(m){if(m.isSkinnedMesh)mesh=m});if(!mesh)return;")
 one("GL.load('models/dianna-anim.glb?v='+FIGV,function(gl){setupDianna(gl,gl.animations)},undefined,function(){GL.load('models/dianna-rig.glb?v='+FIGV,",
     "GL.load('models/jade-anim.glb?v='+FIGV,function(gl){setupDianna(gl,gl.animations)},undefined,function(){GL.load('models/jade-rig.glb?v='+FIGV,")
+# no rigged Jade yet: give the procedural rider a seat so dismount / walk / call-the-jeep still work (FIG.dia = dummy inside the group, no bones to pose)
+one("function(gl){setupDianna(gl,null)},undefined,function(){})});",
+    "function(gl){setupDianna(gl,null)},undefined,function(){procSeat()})});"
+    " function procSeat(){if(FIG.onSeat)return;var Dg=DOG.children.filter(function(c){return c.userData.dianna})[0];if(!Dg)return;var seat=new THREE.Object3D();seat.position.copy(Dg.position);DOG.add(seat);Dg.position.set(0,0,0);seat.add(Dg);Dg.userData.rider=true;var dummy=new THREE.Object3D();Dg.add(dummy);FIG.dia=dummy;FIG.seat=seat;FIG.diaYs=0;FIG.diaZs=0;FIG.onSeat=true;RIDE.on=true;RIDE.ph='ride';mountUI()}")
 # procedural rider recoloured to Jade while the Rodin/UniRig figure is pending: tan skin, short black hair, teal polo, dark slacks
 one("var JKM=new THREE.MeshStandardMaterial({map:TEX('dianna-jacket.jpg',1,false),roughness:.75,metalness:0});",
     "var JKM=new THREE.MeshStandardMaterial({color:0x" + TEAL2 + ",roughness:.8,metalness:0});var SKM=new THREE.MeshStandardMaterial({color:0xc68a5a,roughness:.7,metalness:0});")
