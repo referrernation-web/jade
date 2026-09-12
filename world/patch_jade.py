@@ -54,7 +54,7 @@ one(r'<section class="seo".*?</section>', f"""<section class="seo" aria-label="R
 <h2>New York — Contact</h2><p>Open to remote work. Fort Bonifacio, Taguig City, Philippines. <a href="mailto:{EMAIL}">{EMAIL}</a> · {PHONE} · <a href="{LI}">LinkedIn</a>.</p>
 </section>""", re.S, True)
 one('<div id="hud"><b>Mark <span>Edcel</span></b><small>Full-Stack Dev · SEO · AEO<br>Makati → US · CA · AU</small></div>',
-    '<div id="hud"><b>Jade <span>Patrick</span></b><small>Executive Assistant · SEO · AEO<br>Taguig → remote</small></div>')
+    '<div id="hud"><b>Jade <span>Patrick</span></b><small>Exec. Assistant · SEO · AEO<br>Taguig → remote</small></div>')
 one('H center on Kimpoy · B bark', 'H center on the jeepney · B honk')
 one(r'<div id="load"><div class="card">\n<h1>.*?</p>', """<div id="load"><div class="card">
 <h1>Jade's <span>World</span></h1>
