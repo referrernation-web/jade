@@ -412,7 +412,7 @@ var RG=new THREE.Group(),DOG=new THREE.Group(),legs=[],tail,dHair,EARS=[],TONGUE
  var dh=new THREE.Mesh(new THREE.SphereGeometry(.31,18,14),DHM);dh.position.set(0,1.08,0);D.add(dh);     // her real face on the front of the texture
  HAIR=new THREE.Group();HAIR.position.set(0,1.0,0);D.add(HAIR);   // spring pivot
  var HRM=new THREE.MeshStandardMaterial({color:0x15120f,roughness:.9,metalness:0});
- dHair=new THREE.Mesh(new THREE.SphereGeometry(.345,16,12,Math.PI*.72,Math.PI*1.56),HRM);dHair.position.set(0,.08,0);dHair.scale.set(1.04,1,1.02);HAIR.add(dHair);   // hair cap open at the face
+ dHair=new THREE.Mesh(new THREE.SphereGeometry(.345,16,12,Math.PI*.72,Math.PI*1.56),HRM);dHair.position.set(0,.08,0);dHair.scale.set(1.04,1,1.02);HAIR.add(dHair);GL.load('models/jade-bust.glb?v=4',function(gl){var b=gl.scene,bb=new THREE.Box3().setFromObject(b),sz=bb.getSize(new THREE.Vector3()),sc=1.15/sz.y;b.scale.setScalar(sc);bb.setFromObject(b);b.position.set(-(bb.min.x+bb.max.x)/2,.5-bb.min.y,-(bb.min.z+bb.max.z)/2);b.traverse(function(m){if(m.isMesh){m.castShadow=true;if(m.material){m.material.roughness=.85;m.material.metalness=0}}});D.add(b);dh.visible=false;HAIR.visible=false;D.userData.bust=b},undefined,function(){});   // hair cap open at the face
     // long hair down the back
     // side strands
 })();

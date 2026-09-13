@@ -5,3 +5,5 @@ world/models/*-r.glb
 world/models/*-body*.glb
 world/preview_*
 world/test/
+world/models/jade-rodin*.glb
+world/rodin.log
